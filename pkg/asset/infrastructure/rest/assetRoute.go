@@ -33,7 +33,7 @@ func New(
 func (pRoute *assetRoute) AddRoutes(router *mux.Router) {
 	router.HandleFunc("/assets", add).Methods(http.MethodPost)
 	router.HandleFunc("/assets/client/{clientId:[0-9-\\d]+}", searchByClient).Methods(http.MethodGet)
-	router.HandleFunc("/assets/{sku:[0-9-\\d]+}", search).Methods(http.MethodGet)
+	router.HandleFunc("/assets/{id:[0-9-\\d]+}", search).Methods(http.MethodGet)
 
 }
 
@@ -62,10 +62,10 @@ func add(w http.ResponseWriter, r *http.Request) {
 func searchByClient(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	w.Header().Set("Content-Type", "application/json")
-	if result, error := assetApp.GetByClient(r.Context(), vars["businessId"]); error != nil {
+	if result, error := assetApp.GetByClient(r.Context(), vars["clientId"]); error != nil {
 		log.Println(error)
 		w.WriteHeader(http.StatusInternalServerError)
-		_ = json.NewEncoder(w).Encode("Business not found")
+		_ = json.NewEncoder(w).Encode("No se encontró el inmueble")
 		return
 	} else {
 		_ = json.NewEncoder(w).Encode(result)

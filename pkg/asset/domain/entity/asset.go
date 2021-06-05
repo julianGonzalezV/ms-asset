@@ -17,22 +17,28 @@ func New(items []Item, price float64, businessId, sku, name, description, catego
 }
 
 type Asset struct {
-	BusinessId  string  `json:"businessId"`
-	Sku         string  `json:"sku"`
-	Image       string  `json:"image"`
-	Name        string  `json:"name"`
-	Description string  `json:"description,omitempty"`
-	Category    string  `json:"category,omitempty"`
-	State       string  `json:"state,omitempty"`
-	Price       float64 `json:"price"`
-	ProductType string  `json:"type,omitempty"`
-	Items       []Item  `json:"items,omitempty"`
+	internalCode string       `json:"sku"`
+	Name         string       `json:"name"`
+	Country      string       `json:"state,omitempty"`
+	province     string       `json:"state,omitempty"`
+	City         string       `json:"state,omitempty"`
+	Description  string       `json:"description,omitempty"`
+	Category     string       `json:"category,omitempty"`
+	State        string       `json:"state,omitempty"`
+	RentingPrice float64      `json:"rentingPrice"`
+	Area         float64      `json:"area"`
+	Rooms        float64      `json:"rooms"`
+	BathRooms    float64      `json:"bathRooms"`
+	Parkings     float64      `json:"bathRooms"`
+	Furnished    bool         `json:"furnished"`
+	ProductType  string       `json:"type,omitempty"`
+	Images       []AssetImage `json:"images,omitempty"`
 }
 
-type Item struct {
-	Image       string `json:"image"`
+type AssetImage struct {
+	Url         string `json:"url"`
 	Name        string `json:"name"`
 	Description string `json:"description,omitempty"`
-	Category    string `json:"category,omitempty"`
+	Type        string `json:"type,omitempty"`
 	State       string `json:"state,omitempty"`
 }
