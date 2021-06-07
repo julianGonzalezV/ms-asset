@@ -1,43 +1,48 @@
 package entity
 
 // New function is used to create a new struct
-func New(items []Item, price float64, businessId, sku, name, description, category, state, productType, image string) *Asset {
+func New(images []AssetImage, furnished bool, rentingPrice, area, rooms, bathRooms, parkings float64, country, province,
+	city, description, category, state, pType, registrationNumber string) *Asset {
 	return &Asset{
-		BusinessId:  businessId,
-		Sku:         sku,
-		Image:       image,
-		Name:        name,
-		Description: description,
-		Category:    category,
-		State:       state,
-		Price:       price,
-		ProductType: productType,
-		Items:       items,
+		RegistrationNumber: registrationNumber,
+		Country:            country,
+		Province:           province,
+		City:               city,
+		Description:        description,
+		Category:           category,
+		State:              state,
+		RentingPrice:       rentingPrice,
+		Area:               area,
+		Rooms:              rooms,
+		BathRooms:          bathRooms,
+		Parkings:           parkings,
+		Furnished:          furnished,
+		Type:               pType,
+		Images:             images,
 	}
 }
 
 type Asset struct {
-	internalCode string       `json:"sku"`
-	Name         string       `json:"name"`
-	Country      string       `json:"state,omitempty"`
-	province     string       `json:"state,omitempty"`
-	City         string       `json:"state,omitempty"`
-	Description  string       `json:"description,omitempty"`
-	Category     string       `json:"category,omitempty"`
-	State        string       `json:"state,omitempty"`
-	RentingPrice float64      `json:"rentingPrice"`
-	Area         float64      `json:"area"`
-	Rooms        float64      `json:"rooms"`
-	BathRooms    float64      `json:"bathRooms"`
-	Parkings     float64      `json:"bathRooms"`
-	Furnished    bool         `json:"furnished"`
-	ProductType  string       `json:"type,omitempty"`
-	Images       []AssetImage `json:"images,omitempty"`
+	Code               string       `json:"code"`
+	RegistrationNumber string       `json:"RegistrationNumber"`
+	Country            string       `json:"country,omitempty"`
+	Province           string       `json:"province,omitempty"`
+	City               string       `json:"city,omitempty"`
+	Description        string       `json:"description,omitempty"`
+	Category           string       `json:"category,omitempty"`
+	State              string       `json:"state,omitempty"`
+	RentingPrice       float64      `json:"rentingPrice"`
+	Area               float64      `json:"area"`
+	Rooms              float64      `json:"rooms"`
+	BathRooms          float64      `json:"bathRooms"`
+	Parkings           float64      `json:"parkings"`
+	Furnished          bool         `json:"furnished"`
+	Type               string       `json:"type,omitempty"`
+	Images             []AssetImage `json:"images,omitempty"`
 }
 
 type AssetImage struct {
 	Url         string `json:"url"`
-	Name        string `json:"name"`
 	Description string `json:"description,omitempty"`
 	Type        string `json:"type,omitempty"`
 	State       string `json:"state,omitempty"`

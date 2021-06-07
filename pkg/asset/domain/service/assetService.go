@@ -26,7 +26,7 @@ func New(repository repository.AssetRepository) AssetServiceInterface {
 
 // Addasset adds the given record
 func (service *assetService) Add(ctx context.Context, p *entity.Asset) error {
-	_, error := service.repository.FetchByID(p.Sku)
+	_, error := service.repository.FetchByID(p.RegistrationNumber)
 	if error == customerror.ErrRecordNotFound {
 		return service.repository.Create(ctx, p)
 	}

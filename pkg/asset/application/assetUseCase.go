@@ -25,9 +25,10 @@ func New(service service.AssetServiceInterface) AssetUseCaseInterface {
 
 // Add adds the given record to storage
 func (app *assetUseCase) Add(ctx context.Context, requestData request.AssetRequest) error {
-	b := entity.New(itemsRequestToDomain(requestData.Items), requestData.Price, requestData.BusinessId, requestData.Sku, requestData.Name,
-		requestData.Description, requestData.Category, requestData.State, requestData.ProductType, requestData.Image)
-	return app.service.Add(ctx, b)
+	asset := entity.New(itemsRequestToDomain(requestData.Images), requestData.Furnished, requestData.RentingPrice, requestData.Area, requestData.Rooms,
+		requestData.BathRooms, requestData.Parkings, requestData.Country, requestData.Province, requestData.City,
+		requestData.Description, requestData.Category, requestData.State, requestData.Type, requestData.RegistrationNumber)
+	return app.service.Add(ctx, asset)
 
 }
 
@@ -41,11 +42,11 @@ func (app *assetUseCase) Get(ctx context.Context, sku string) (*entity.Asset, er
 	return app.service.Get(ctx, sku)
 }
 
-func itemsRequestToDomain(items []request.ItemRequest) []entity.Item {
-	var results []entity.Item
-	for _, item := range items {
-		results = append(results, entity.Item{Name: item.Name,
-			Description: item.Description, Category: item.Category, State: item.State})
+func itemsRequestToDomain(images []request.AssetImageRequest) []entity.AssetImage {
+	var results []entity.AssetImage
+	for _, image := range images {
+		results = append(results, entity.AssetImage{Url: image.Url,
+			Description: image.Description, Type: image.Type, State: image.State})
 	}
 	return results
 }
