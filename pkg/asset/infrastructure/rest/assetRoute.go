@@ -30,9 +30,18 @@ func New(
 	return &assetRoute{app: assetApp}
 }
 
+/// AddRoutes use pathParams cuando:
+///	- va a adicionar categorías
+///	- Desea indicar que un valor es obligatorio(si no vienen el la url error )
 func (pRoute *assetRoute) AddRoutes(router *mux.Router) {
 	router.HandleFunc("/assets", add).Methods(http.MethodPost)
 	router.HandleFunc("/assets/client/{clientId:[0-9-\\d]+}", searchByClient).Methods(http.MethodGet)
+	router.
+		HandleFunc("/assets/{location:[a-z]+}", searchBy).
+		Queries("type", "{type}", "renting_price", "{renting_price}",
+			"locations", "{locations}", "area", "{area}", "is_furnitured", "{is_furnitured}",
+			"rooms", "{rooms}", "bathrooms", "{bathrooms}", "car_parks", "{car_parks}").
+		Methods(http.MethodGet)
 	router.HandleFunc("/assets/{id:[0-9-\\d]+}", search).Methods(http.MethodGet)
 
 }
@@ -60,6 +69,21 @@ func add(w http.ResponseWriter, r *http.Request) {
 }
 
 func searchByClient(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	w.Header().Set("Content-Type", "application/json")
+
+	if result, error := assetApp.GetByClient(r.Context(), vars["clientId"]); error != nil {
+		log.Println(error)
+		w.WriteHeader(http.StatusInternalServerError)
+		_ = json.NewEncoder(w).Encode("No se encontró el inmueble")
+		return
+	} else {
+		_ = json.NewEncoder(w).Encode(result)
+	}
+
+}
+
+func searchBy(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	w.Header().Set("Content-Type", "application/json")
 	if result, error := assetApp.GetByClient(r.Context(), vars["clientId"]); error != nil {
