@@ -1,6 +1,6 @@
 package service
 
-// This component is in charge of handle domain business rules
+// This component is in charge of handle domain rules
 import (
 	"context"
 	"ms-asset/pkg/asset/domain/entity"
@@ -11,7 +11,8 @@ import (
 // assetServiceInterface interface that establishes functions to be implemented
 type AssetServiceInterface interface {
 	Add(ctx context.Context, b *entity.Asset) error
-	GetByClient(ctx context.Context, businessId string) ([]*entity.Asset, error)
+	GetByClient(ctx context.Context, clientId string) ([]*entity.Asset, error)
+	GetBy(ctx context.Context, filters map[string]string) ([]*entity.Asset, error)
 	Get(ctx context.Context, sku string) (*entity.Asset, error)
 }
 
@@ -33,9 +34,14 @@ func (service *assetService) Add(ctx context.Context, p *entity.Asset) error {
 	return nil
 }
 
-// GetassetsByBusiness searches all records related to a business
-func (service *assetService) GetByClient(ctx context.Context, businessId string) ([]*entity.Asset, error) {
-	return service.repository.FetchByClient(businessId)
+// GetByClient searches all records related
+func (service *assetService) GetByClient(ctx context.Context, clientId string) ([]*entity.Asset, error) {
+	return service.repository.FetchByClient(clientId)
+}
+
+// GetBy searches all records related to the filter indicated
+func (service *assetService) GetBy(ctx context.Context, filters map[string]string) ([]*entity.Asset, error) {
+	return service.repository.FetchBy(filters)
 }
 
 // Getasset searches a record

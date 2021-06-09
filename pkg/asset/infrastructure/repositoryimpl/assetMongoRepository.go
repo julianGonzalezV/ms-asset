@@ -52,7 +52,35 @@ func (r assetRepository) FetchByID(ID string) (*entity.Asset, error) {
 func (r assetRepository) FetchByClient(ID string) ([]*entity.Asset, error) {
 	collection := r.db.Database("test").Collection("assets")
 	var results []*entity.Asset
-	cur, error := collection.Find(context.TODO(), bson.M{"businessid": ID})
+	cur, error := collection.Find(context.TODO(), bson.M{"clientid": ID})
+	if error != nil {
+		return nil, customerror.ErrMongo
+	}
+
+	for cur.Next(context.TODO()) {
+		//Value into which the single document can be decoded
+		var elem entity.Asset
+		err := cur.Decode(&elem)
+		if err != nil {
+			log.Fatal(err)
+		}
+		results = append(results, &elem)
+	}
+	if err := cur.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	// Close the cursor once finished
+	cur.Close(context.TODO())
+
+	return results, nil
+}
+
+// Fetch return all records saved in storage
+func (r assetRepository) FetchBy(filters map[string]string) ([]*entity.Asset, error) {
+	collection := r.db.Database("test").Collection("assets")
+	var results []*entity.Asset
+	cur, error := collection.Find(context.TODO(), bson.M{"clientid": 123})
 	if error != nil {
 		return nil, customerror.ErrMongo
 	}

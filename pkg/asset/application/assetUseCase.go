@@ -11,6 +11,7 @@ import (
 type AssetUseCaseInterface interface {
 	Add(ctx context.Context, requestData request.AssetRequest) error
 	GetByClient(ctx context.Context, clientId string) ([]*entity.Asset, error)
+	GetBy(ctx context.Context, filters map[string]string) ([]*entity.Asset, error)
 	Get(ctx context.Context, sku string) (*entity.Asset, error)
 }
 
@@ -18,7 +19,7 @@ type assetUseCase struct {
 	service service.AssetServiceInterface
 }
 
-// NewBusinessApp creates the business application from App Layer
+// New creates the application use case class from App Layer
 func New(service service.AssetServiceInterface) AssetUseCaseInterface {
 	return &assetUseCase{service}
 }
@@ -33,8 +34,13 @@ func (app *assetUseCase) Add(ctx context.Context, requestData request.AssetReque
 }
 
 // GetByClient searches all records into the storage
-func (app *assetUseCase) GetByClient(ctx context.Context, businessId string) ([]*entity.Asset, error) {
-	return app.service.GetByClient(ctx, businessId)
+func (app *assetUseCase) GetByClient(ctx context.Context, clientId string) ([]*entity.Asset, error) {
+	return app.service.GetByClient(ctx, clientId)
+}
+
+// GetBy searches all records into the storage
+func (app *assetUseCase) GetBy(ctx context.Context, filters map[string]string) ([]*entity.Asset, error) {
+	return app.service.GetByClient(ctx, "12")
 }
 
 // Get searches all records into the storage

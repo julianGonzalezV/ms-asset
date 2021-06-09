@@ -33,6 +33,8 @@ func New(
 /// AddRoutes use pathParams cuando:
 ///	- va a adicionar categorías
 ///	- Desea indicar que un valor es obligatorio(si no vienen el la url error )
+/// Ejemplos de consumos
+/// http://localhost:8000/assets/medellin?renting_price&locations&type&area&is_furnitured&rooms&bathrooms&car_parks
 func (pRoute *assetRoute) AddRoutes(router *mux.Router) {
 	router.HandleFunc("/assets", add).Methods(http.MethodPost)
 	router.HandleFunc("/assets/client/{clientId:[0-9-\\d]+}", searchByClient).Methods(http.MethodGet)

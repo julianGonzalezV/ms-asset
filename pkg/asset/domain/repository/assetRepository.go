@@ -11,6 +11,8 @@ type AssetRepository interface {
 	Create(ctx context.Context, p *entity.Asset) error
 	// FetchByID returns the record with given ID
 	FetchByID(Id string) (*entity.Asset, error)
-	// FetchByClient returns the record with given business ID
-	FetchByClient(businessId string) ([]*entity.Asset, error)
+	// FetchByClient returns the record with given an ID
+	FetchByClient(clientId string) ([]*entity.Asset, error)
+	// FetchByClient returns the record with given any filter in filters map
+	FetchBy(filters map[string]string) ([]*entity.Asset, error)
 }
