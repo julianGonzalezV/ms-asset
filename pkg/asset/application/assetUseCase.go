@@ -40,7 +40,7 @@ func (app *assetUseCase) GetByClient(ctx context.Context, clientId string) ([]*e
 
 // GetBy searches all records into the storage
 func (app *assetUseCase) GetBy(ctx context.Context, filters map[string]string) ([]*entity.Asset, error) {
-	return app.service.GetByClient(ctx, "12")
+	return app.service.GetBy(ctx, filters)
 }
 
 // Get searches all records into the storage

@@ -48,3 +48,25 @@ https://github.com/apex/gateway (https://www.ocelotconsulting.com/2019/02/25/the
 
 ## AWS configuration:
 - See "aws_conf_folder" where all process is documented via images
+
+
+## Consumos:
+Crear POST http://localhost:8000/assets
+{
+	"code":"AP0001", 
+	"RegistrationNumber":"INE0001224234", 
+	"country":"COLOMBIA", 
+	"province":"VALLE DEL CAUCA", 
+	"city":"TULUÁ", 
+	"description":"Apartemento cerca al metro, con parqueaderos comunes pero siempre en la unidad te aseguran un espacio (no el mismo siempre) para los vehiculos de propietarios o inquilins. Cerca a hospital XYZ , a centro comercal ABC , varias tiendas de barrio alrededor , dos parques cercano el de la familia y el de las chimeneas , super central ubicado sobre todo el centro de la moda ", 
+	"category":"", 
+	"state":"ACTIVO", 
+	"rentingPrice":1200000, 
+	"area":63, 
+	"rooms":3, 
+	"bathRooms":1, 
+	"parkings":1, 
+	"furnished":false, 
+	"type":"APARTAMENTO", 
+	"images":[{"url":"url","description":"sala comedor muy agradable con balcon","type":"PRINCIPAL","state":"ACTIVO"}]
+}

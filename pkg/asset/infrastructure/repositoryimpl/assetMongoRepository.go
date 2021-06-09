@@ -80,7 +80,7 @@ func (r assetRepository) FetchByClient(ID string) ([]*entity.Asset, error) {
 func (r assetRepository) FetchBy(filters map[string]string) ([]*entity.Asset, error) {
 	collection := r.db.Database("test").Collection("assets")
 	var results []*entity.Asset
-	cur, error := collection.Find(context.TODO(), bson.M{"clientid": 123})
+	cur, error := collection.Find(context.TODO(), filters)
 	if error != nil {
 		return nil, customerror.ErrMongo
 	}
