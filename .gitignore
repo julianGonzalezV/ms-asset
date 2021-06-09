@@ -16,5 +16,8 @@ start_dev_linux.sh
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
+# vscode IDE setup
+*.vscode
+
 # Dependency directories (remove the comment below to include it)
 # vendor/
