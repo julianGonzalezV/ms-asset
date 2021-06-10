@@ -4,6 +4,7 @@ import (
 	"context"
 	"ms-asset/pkg/asset/domain/entity"
 	"ms-asset/pkg/asset/domain/service"
+	"ms-asset/pkg/asset/infrastructure/mapper"
 	"ms-asset/pkg/asset/infrastructure/request"
 )
 
@@ -40,7 +41,8 @@ func (app *assetUseCase) GetByClient(ctx context.Context, clientId string) ([]*e
 
 // GetBy searches all records into the storage
 func (app *assetUseCase) GetBy(ctx context.Context, filters map[string]string) ([]*entity.Asset, error) {
-	return app.service.GetBy(ctx, filters)
+	filtersMapped, _ := mapper.New().RequestToFilter(filters)
+	return app.service.GetBy(ctx, filtersMapped)
 }
 
 // Get searches all records into the storage

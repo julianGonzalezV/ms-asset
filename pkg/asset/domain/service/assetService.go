@@ -12,7 +12,7 @@ import (
 type AssetServiceInterface interface {
 	Add(ctx context.Context, b *entity.Asset) error
 	GetByClient(ctx context.Context, clientId string) ([]*entity.Asset, error)
-	GetBy(ctx context.Context, filters map[string]string) ([]*entity.Asset, error)
+	GetBy(ctx context.Context, filters map[string]interface{}) ([]*entity.Asset, error)
 	Get(ctx context.Context, sku string) (*entity.Asset, error)
 }
 
@@ -40,7 +40,7 @@ func (service *assetService) GetByClient(ctx context.Context, clientId string) (
 }
 
 // GetBy searches all records related to the filter indicated
-func (service *assetService) GetBy(ctx context.Context, filters map[string]string) ([]*entity.Asset, error) {
+func (service *assetService) GetBy(ctx context.Context, filters map[string]interface{}) ([]*entity.Asset, error) {
 	return service.repository.FetchBy(filters)
 }
 

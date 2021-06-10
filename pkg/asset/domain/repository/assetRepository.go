@@ -14,5 +14,5 @@ type AssetRepository interface {
 	// FetchByClient returns the record with given an ID
 	FetchByClient(clientId string) ([]*entity.Asset, error)
 	// FetchByClient returns the record with given any filter in filters map
-	FetchBy(filters map[string]string) ([]*entity.Asset, error)
+	FetchBy(filters map[string]interface{}) ([]*entity.Asset, error)
 }
