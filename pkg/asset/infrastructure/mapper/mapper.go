@@ -2,6 +2,7 @@ package mapper
 
 import (
 	"strconv"
+	"strings"
 )
 
 type Mapper interface {
@@ -21,20 +22,28 @@ func (mapper *mapperImpl) RequestToFilter(queryParameters map[string]string) (ma
 
 	for key, value := range queryParameters {
 		if value != "" {
-			v, err := typeConverter(value)
-			if err == nil {
-				result[key] = v
+			if strings.Contains(value, ":") {
+				splResult := strings.Split(value, ":")
+				result[key] = map[string]interface{}{"$gte": typeConverter(splResult[0]), "$lte": typeConverter(splResult[1])}
+			} else {
+				result[key] = typeConverter(value)
 			}
+
 		}
 	}
 	return result, nil
 }
 
-func typeConverter(v string) (interface{}, error) {
+///
+func typeConverter(v string) interface{} {
 	f, error := strconv.ParseFloat(v, 64)
-	if error != nil {
-		return nil, error
+	if error == nil {
+		return f
 	}
-	return f, nil
+	b, errb := strconv.ParseBool(v)
+	if errb == nil {
+		return b
+	}
+	return v
 
 }

@@ -80,7 +80,8 @@ func (r assetRepository) FetchByClient(ID string) ([]*entity.Asset, error) {
 func (r assetRepository) FetchBy(filters map[string]interface{}) ([]*entity.Asset, error) {
 	collection := r.db.Database("test").Collection("assets")
 	var results []*entity.Asset
-	//filterAux := map[string]interface{}{"city": "medellin", "rentingprice": 1200000}
+	//filterAux := map[string]interface{}{ "rentingprice": { $lt: inputDate }}
+	//bson.M{"rentingprice": bson.M{"$gte": 1100000, "$lte": 1190000}}
 	cur, error := collection.Find(context.TODO(), filters)
 	if error != nil {
 		return nil, customerror.ErrMongo
