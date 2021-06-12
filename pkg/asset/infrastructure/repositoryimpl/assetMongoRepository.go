@@ -56,7 +56,6 @@ func (r assetRepository) FetchByClient(ID string) ([]*entity.Asset, error) {
 	if error != nil {
 		return nil, customerror.ErrMongo
 	}
-
 	for cur.Next(context.TODO()) {
 		//Value into which the single document can be decoded
 		var elem entity.Asset
@@ -69,10 +68,7 @@ func (r assetRepository) FetchByClient(ID string) ([]*entity.Asset, error) {
 	if err := cur.Err(); err != nil {
 		log.Fatal(err)
 	}
-
-	// Close the cursor once finished
 	cur.Close(context.TODO())
-
 	return results, nil
 }
 
@@ -80,13 +76,10 @@ func (r assetRepository) FetchByClient(ID string) ([]*entity.Asset, error) {
 func (r assetRepository) FetchBy(filters map[string]interface{}) ([]*entity.Asset, error) {
 	collection := r.db.Database("test").Collection("assets")
 	var results []*entity.Asset
-	//filterAux := map[string]interface{}{ "rentingprice": { $lt: inputDate }}
-	//bson.M{"rentingprice": bson.M{"$gte": 1100000, "$lte": 1190000}}
 	cur, error := collection.Find(context.TODO(), filters)
 	if error != nil {
 		return nil, customerror.ErrMongo
 	}
-
 	for cur.Next(context.TODO()) {
 		//Value into which the single document can be decoded
 		var elem entity.Asset
@@ -99,9 +92,6 @@ func (r assetRepository) FetchBy(filters map[string]interface{}) ([]*entity.Asse
 	if err := cur.Err(); err != nil {
 		log.Fatal(err)
 	}
-
-	// Close the cursor once finished
 	cur.Close(context.TODO())
-
 	return results, nil
 }

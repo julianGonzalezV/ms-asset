@@ -59,8 +59,6 @@ func add(w http.ResponseWriter, r *http.Request) {
 		_ = json.NewEncoder(w).Encode("Error unmarshalling request body")
 		return
 	}
-	//	AddProduct(ctx context.Context, requestData request.ProductRequest) error
-
 	if err := assetApp.Add(r.Context(), cl); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
