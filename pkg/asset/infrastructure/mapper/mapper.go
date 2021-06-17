@@ -21,7 +21,7 @@ func (mapper *mapperImpl) RequestToFilter(queryParameters map[string]string) (ma
 	result := make(map[string]interface{})
 
 	for key, value := range queryParameters {
-		if value != "" {
+		if value != "" && value != "0" {
 			if strings.Contains(value, ":") {
 				splResult := strings.Split(value, ":")
 				result[key] = map[string]interface{}{"$gte": typeConverter(splResult[0]), "$lte": typeConverter(splResult[1])}
