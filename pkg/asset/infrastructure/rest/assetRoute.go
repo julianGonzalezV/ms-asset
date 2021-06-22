@@ -44,7 +44,7 @@ func (pRoute *assetRoute) AddRoutes(router *mux.Router) {
 			"area", "{area}", "furnished", "{furnished}",
 			"rooms", "{rooms}", "bathrooms", "{bathrooms}", "parkings", "{parkings}").
 		Methods(http.MethodGet)
-	router.HandleFunc("/assets/{id:[0-9-\\d]+}", search).Methods(http.MethodGet)
+	router.HandleFunc("/assets/{code:[A-Z00-9-\\d]+}", search).Methods(http.MethodGet)
 
 }
 
@@ -100,7 +100,7 @@ func searchBy(w http.ResponseWriter, r *http.Request) {
 func search(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	w.Header().Set("Content-Type", "application/json")
-	if result, error := assetApp.Get(r.Context(), vars["sku"]); error != nil {
+	if result, error := assetApp.Get(r.Context(), vars["code"]); error != nil {
 		log.Println(error)
 		w.WriteHeader(http.StatusInternalServerError)
 		_ = json.NewEncoder(w).Encode("Record not found")

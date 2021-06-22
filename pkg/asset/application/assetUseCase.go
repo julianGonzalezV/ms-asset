@@ -13,7 +13,7 @@ type AssetUseCaseInterface interface {
 	Add(ctx context.Context, requestData request.AssetRequest) error
 	GetByClient(ctx context.Context, clientId string) ([]*entity.Asset, error)
 	GetBy(ctx context.Context, filters map[string]string) ([]*entity.Asset, error)
-	Get(ctx context.Context, sku string) (*entity.Asset, error)
+	Get(ctx context.Context, code string) (*entity.Asset, error)
 }
 
 type assetUseCase struct {
@@ -46,8 +46,8 @@ func (app *assetUseCase) GetBy(ctx context.Context, filters map[string]string) (
 }
 
 // Get searches all records into the storage
-func (app *assetUseCase) Get(ctx context.Context, sku string) (*entity.Asset, error) {
-	return app.service.Get(ctx, sku)
+func (app *assetUseCase) Get(ctx context.Context, code string) (*entity.Asset, error) {
+	return app.service.Get(ctx, code)
 }
 
 func itemsRequestToDomain(images []request.AssetImageRequest) []entity.AssetImage {

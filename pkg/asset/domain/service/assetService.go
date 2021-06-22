@@ -45,6 +45,6 @@ func (service *assetService) GetBy(ctx context.Context, filters map[string]inter
 }
 
 // Getasset searches a record
-func (service *assetService) Get(ctx context.Context, sku string) (*entity.Asset, error) {
-	return service.repository.FetchByID(sku)
+func (service *assetService) Get(ctx context.Context, code string) (*entity.Asset, error) {
+	return service.repository.FetchByID(code)
 }

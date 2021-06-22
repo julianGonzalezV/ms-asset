@@ -39,7 +39,7 @@ func (r assetRepository) FetchByID(ID string) (*entity.Asset, error) {
 	fmt.Println("FetchByID", ID)
 	collection := r.db.Database("test").Collection("assets")
 	resultStruct := &entity.Asset{}
-	result := collection.FindOne(context.TODO(), bson.M{"sku": ID})
+	result := collection.FindOne(context.TODO(), bson.M{"code": ID})
 	if result.Err() == mongo.ErrNoDocuments {
 		return nil, customerror.ErrRecordNotFound
 	}
