@@ -44,11 +44,12 @@ func ClientHandler() {
 		defaultHost    = os.Getenv("CLIENTAPI_SERVER_HOST")
 		defaultPort, _ = strconv.Atoi(os.Getenv("CLIENTAPI_SERVER_PORT"))
 		dbDriver       = os.Getenv("DATABASE_DRIVER")
+		environment    = os.Getenv("ENVIRONMENT")
 	)
 	host := flag.String("host", defaultHost, "define host of the server")
 	port := flag.Int("port", defaultPort, "define port of the server")
 	database := flag.String("database", dbDriver, "initialize the api using the given db engine")
-
+	env := flag.String("env", environment, "define environment")
 	// Injecting services and repos to Application Layer
 	assetR := initializeRepo(database)
 	assetUseCase := assetUseCase.New(assetService.New(assetR))
@@ -59,12 +60,16 @@ func ClientHandler() {
 	assetRoute := assetRoute.New(assetUseCase)
 	server := server.New(assetRoute)
 
-	// Next two lines are for AWS Conf
-	http.Handle("/", server.Router())
-	log.Fatal(gateway.ListenAndServe(httpAddr, nil))
-
-	// Next line is for Local conf
-	//log.Fatal(http.ListenAndServe(httpAddr, server.Router()))
+	///initializeServerEnv
+	switch *env {
+	case "dev":
+		log.Fatal(http.ListenAndServe(httpAddr, server.Router()))
+	default:
+		/// AWS conf
+		http.Handle("/", server.Router())
+		log.Fatal(gateway.ListenAndServe(httpAddr, nil))
+	}
+	
 	fmt.Println("The client server is running", httpAddr)
 
 }
