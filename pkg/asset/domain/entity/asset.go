@@ -2,8 +2,9 @@ package entity
 
 // New function is used to create a new struct
 func New(images []AssetImage, furnished bool, rentingPrice, area, rooms, bathRooms, parkings float64, country, province,
-	city, description, category, state, pType, registrationNumber string) *Asset {
+	city, description, category, state, pType, code, registrationNumber string) *Asset {
 	return &Asset{
+		Code:				code,
 		RegistrationNumber: registrationNumber,
 		Country:            country,
 		Province:           province,

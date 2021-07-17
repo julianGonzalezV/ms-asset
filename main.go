@@ -50,10 +50,10 @@ func ClientHandler() {
 	port := flag.Int("port", defaultPort, "define port of the server")
 	database := flag.String("database", dbDriver, "initialize the api using the given db engine")
 	env := flag.String("env", environment, "define environment")
-
 	// Injecting services and repos to Application Layer
 	assetR := initializeRepo(database)
 	assetUseCase := assetUseCase.New(assetService.New(assetR))
+
 	httpAddr := fmt.Sprintf("%s:%d", *host, *port)
 
 	// Injecting server configuration
@@ -69,7 +69,9 @@ func ClientHandler() {
 		http.Handle("/", server.Router())
 		log.Fatal(gateway.ListenAndServe(httpAddr, nil))
 	}
+	
 	fmt.Println("The client server is running", httpAddr)
+
 }
 
 func main() {

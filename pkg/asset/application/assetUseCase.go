@@ -29,7 +29,7 @@ func New(service service.AssetServiceInterface) AssetUseCaseInterface {
 func (app *assetUseCase) Add(ctx context.Context, requestData request.AssetRequest) error {
 	asset := entity.New(itemsRequestToDomain(requestData.Images), requestData.Furnished, requestData.RentingPrice, requestData.Area, requestData.Rooms,
 		requestData.BathRooms, requestData.Parkings, requestData.Country, requestData.Province, requestData.City,
-		requestData.Description, requestData.Category, requestData.State, requestData.Type, requestData.RegistrationNumber)
+		requestData.Description, requestData.Category, requestData.State, requestData.Type,requestData.Code, requestData.RegistrationNumber)
 	return app.service.Add(ctx, asset)
 
 }
