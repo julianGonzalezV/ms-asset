@@ -12,7 +12,7 @@ type AssetRequest struct {
 	RentingPrice       float64             `json:"rentingPrice"`
 	Area               float64             `json:"area"`
 	Rooms              float64             `json:"rooms"`
-	BathRooms          float64             `json:"bathRooms"`
+	BathRooms          float64             `json:"bathrooms"`
 	Parkings           float64             `json:"parkings"`
 	Furnished          bool                `json:"furnished"`
 	Type               string              `json:"type,omitempty"`
