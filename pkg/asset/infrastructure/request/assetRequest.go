@@ -15,6 +15,11 @@ type AssetRequest struct {
 	BathRooms          float64             `json:"bathrooms"`
 	Parkings           float64             `json:"parkings"`
 	Furnished          bool                `json:"furnished"`
+	FloorLevel         float64             `json:"floorLevel"`
+	Elevator           bool                `json:"elevator"`
+	VisitorParking     bool                `json:"visitorParking"`
+	CommunalArea       bool                `json:"communalArea"`
+	Gym                bool                `json:"gym"`
 	Type               string              `json:"type,omitempty"`
 	Images             []AssetImageRequest `json:"images,omitempty"`
 }
