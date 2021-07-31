@@ -1,5 +1,32 @@
 package response
 
+func NewFullResponse(images []AssetImageResponse, furnished, visitorParking, elevator, communalArea, gym bool, floorLevel, rentingPrice, area, rooms, bathRooms, parkings float64, country, province,
+	city, description, category, state, pType, code, registrationNumber string) AssetFullResponse {
+	return AssetFullResponse{
+		Code:               code,
+		RegistrationNumber: registrationNumber,
+		Country:            country,
+		Province:           province,
+		City:               city,
+		Description:        description,
+		Category:           category,
+		State:              state,
+		RentingPrice:       rentingPrice,
+		Area:               area,
+		Rooms:              rooms,
+		BathRooms:          bathRooms,
+		Parkings:           parkings,
+		Furnished:          furnished,
+		Elevator:           elevator,
+		VisitorParking:     visitorParking,
+		FloorLevel:         floorLevel,
+		CommunalArea:       communalArea,
+		Gym:                gym,
+		Type:               pType,
+		Images:             images,
+	}
+}
+
 type AssetFullResponse struct {
 	Code               string               `json:"code"`
 	RegistrationNumber string               `json:"registrationNumber"`

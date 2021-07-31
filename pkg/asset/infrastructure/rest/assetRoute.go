@@ -38,8 +38,7 @@ func New(
 func (pRoute *assetRoute) AddRoutes(router *mux.Router) {
 	router.HandleFunc("/assets", add).Methods(http.MethodPost)
 	router.HandleFunc("/assets/client/{clientId:[0-9-\\d]+}", searchByClient).Methods(http.MethodGet)
-	router.
-		HandleFunc("/assets/{city:[a-z]+}", searchBy).
+	router.HandleFunc("/assets/{city:[a-z]+}", searchBy).
 		Queries("type", "{type}", "rentingprice", "{rentingprice}",
 			"area", "{area}", "furnished", "{furnished}",
 			"rooms", "{rooms}", "bathrooms", "{bathrooms}", "parkings", "{parkings}").

@@ -2,18 +2,18 @@ package application
 
 import (
 	"context"
-	"ms-asset/pkg/asset/domain/entity"
 	"ms-asset/pkg/asset/domain/service"
 	"ms-asset/pkg/asset/infrastructure/mapper"
 	rest "ms-asset/pkg/asset/infrastructure/request"
+	"ms-asset/pkg/asset/infrastructure/response"
 )
 
 // assetUseCaseInterface provides operations to be executed.
 type AssetUseCaseInterface interface {
 	Add(ctx context.Context, requestData rest.AssetRequest) error
-	GetByClient(ctx context.Context, clientId string) ([]*entity.Asset, error)
-	GetBy(ctx context.Context, filters map[string]string) ([]*entity.Asset, error)
-	Get(ctx context.Context, code string) (*entity.Asset, error)
+	GetByClient(ctx context.Context, clientId string) ([]response.AssetFullResponse, error)
+	GetBy(ctx context.Context, filters map[string]string) ([]response.AssetFullResponse, error)
+	Get(ctx context.Context, code string) (response.AssetFullResponse, error)
 }
 
 type assetUseCase struct {
@@ -27,36 +27,33 @@ func New(service service.AssetServiceInterface) AssetUseCaseInterface {
 
 // Add adds the given record to storage
 func (app *assetUseCase) Add(ctx context.Context, requestData rest.AssetRequest) error {
-	asset := entity.New(itemsRequestToDomain(requestData.Images), requestData.Furnished, requestData.VisitorParking, requestData.Elevator,
-		requestData.CommunalArea, requestData.Gym, requestData.FloorLevel,
-		requestData.RentingPrice, requestData.Area, requestData.Rooms,
-		requestData.BathRooms, requestData.Parkings, requestData.Country, requestData.Province, requestData.City,
-		requestData.Description, requestData.Category, requestData.State, requestData.Type, requestData.Code, requestData.RegistrationNumber)
-	return app.service.Add(ctx, asset)
-
+	return app.service.Add(ctx, mapper.New().RequestToDomain(requestData))
 }
 
-// GetByClient searches all records into the storage
-func (app *assetUseCase) GetByClient(ctx context.Context, clientId string) ([]*entity.Asset, error) {
-	return app.service.GetByClient(ctx, clientId)
+// Get ByClient searches all records into the storage
+func (app *assetUseCase) GetByClient(ctx context.Context, clientId string) ([]response.AssetFullResponse, error) {
+	assetL, error := app.service.GetByClient(ctx, clientId)
+	if error != nil {
+		return nil, error
+	}
+	return mapper.New().AssetDomainToFullResponseList(assetL), nil
 }
 
 // GetBy searches all records into the storage
-func (app *assetUseCase) GetBy(ctx context.Context, filters map[string]string) ([]*entity.Asset, error) {
+func (app *assetUseCase) GetBy(ctx context.Context, filters map[string]string) ([]response.AssetFullResponse, error) {
 	filtersMapped, _ := mapper.New().RequestToFilter(filters)
-	return app.service.GetBy(ctx, filtersMapped)
+	assetL, error := app.service.GetBy(ctx, filtersMapped)
+	if error != nil {
+		return nil, error
+	}
+	return mapper.New().AssetDomainToFullResponseList(assetL), nil
 }
 
 // Get searches all records into the storage
-func (app *assetUseCase) Get(ctx context.Context, code string) (*entity.Asset, error) {
-	return app.service.Get(ctx, code)
-}
-
-func itemsRequestToDomain(images []rest.AssetImageRequest) []entity.AssetImage {
-	var results []entity.AssetImage
-	for _, image := range images {
-		results = append(results, entity.AssetImage{Url: image.Url,
-			Description: image.Description, Type: image.Type, State: image.State})
+func (app *assetUseCase) Get(ctx context.Context, code string) (response.AssetFullResponse, error) {
+	asset, error := app.service.Get(ctx, code)
+	if error == nil {
+		return mapper.New().DomainToFullResponse(*asset), nil
 	}
-	return results
+	return response.AssetFullResponse{}, error
 }
