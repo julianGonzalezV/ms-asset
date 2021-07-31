@@ -5,12 +5,12 @@ import (
 	"ms-asset/pkg/asset/domain/entity"
 	"ms-asset/pkg/asset/domain/service"
 	"ms-asset/pkg/asset/infrastructure/mapper"
-	"ms-asset/pkg/asset/infrastructure/request"
+	rest "ms-asset/pkg/asset/infrastructure/request"
 )
 
 // assetUseCaseInterface provides operations to be executed.
 type AssetUseCaseInterface interface {
-	Add(ctx context.Context, requestData request.AssetRequest) error
+	Add(ctx context.Context, requestData rest.AssetRequest) error
 	GetByClient(ctx context.Context, clientId string) ([]*entity.Asset, error)
 	GetBy(ctx context.Context, filters map[string]string) ([]*entity.Asset, error)
 	Get(ctx context.Context, code string) (*entity.Asset, error)
@@ -26,7 +26,7 @@ func New(service service.AssetServiceInterface) AssetUseCaseInterface {
 }
 
 // Add adds the given record to storage
-func (app *assetUseCase) Add(ctx context.Context, requestData request.AssetRequest) error {
+func (app *assetUseCase) Add(ctx context.Context, requestData rest.AssetRequest) error {
 	asset := entity.New(itemsRequestToDomain(requestData.Images), requestData.Furnished, requestData.VisitorParking, requestData.Elevator,
 		requestData.CommunalArea, requestData.Gym, requestData.FloorLevel,
 		requestData.RentingPrice, requestData.Area, requestData.Rooms,
@@ -52,7 +52,7 @@ func (app *assetUseCase) Get(ctx context.Context, code string) (*entity.Asset, e
 	return app.service.Get(ctx, code)
 }
 
-func itemsRequestToDomain(images []request.AssetImageRequest) []entity.AssetImage {
+func itemsRequestToDomain(images []rest.AssetImageRequest) []entity.AssetImage {
 	var results []entity.AssetImage
 	for _, image := range images {
 		results = append(results, entity.AssetImage{Url: image.Url,

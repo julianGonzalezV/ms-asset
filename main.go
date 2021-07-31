@@ -69,7 +69,7 @@ func ClientHandler() {
 		http.Handle("/", server.Router())
 		log.Fatal(gateway.ListenAndServe(httpAddr, nil))
 	}
-	
+
 	fmt.Println("The client server is running", httpAddr)
 
 }
