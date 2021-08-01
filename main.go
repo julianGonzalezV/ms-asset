@@ -22,30 +22,16 @@ import (
 	"github.com/apex/gateway"
 )
 
-/// initializeRepo returns a repository based on database type name
-func initializeRepo(database *string) assetRepository.AssetRepository {
-	switch *database {
-	case "mongo":
-		return newMongoRepository()
-	default:
-		return nil // we can have several implementation like in memory, postgress etc
-	}
-}
+var (
+	defaultHost    = os.Getenv("CLIENTAPI_SERVER_HOST")
+	defaultPort, _ = strconv.Atoi(os.Getenv("CLIENTAPI_SERVER_PORT"))
+	dbDriver       = os.Getenv("DATABASE_DRIVER")
+	environment    = os.Getenv("ENVIRONMENT")
+	mongoAddr      = os.Getenv("DATABASE_CONN")
+)
 
-/// newMongoRepository returns the mongoDB implementation
-func newMongoRepository() assetRepository.AssetRepository {
-	mongoAddr := os.Getenv("DATABASE_CONN")
-	client := storageconn.Connect(mongoAddr)
-	return assetRepositoryImpl.New(client)
-}
-
-func ClientHandler() {
-	var (
-		defaultHost    = os.Getenv("CLIENTAPI_SERVER_HOST")
-		defaultPort, _ = strconv.Atoi(os.Getenv("CLIENTAPI_SERVER_PORT"))
-		dbDriver       = os.Getenv("DATABASE_DRIVER")
-		environment    = os.Getenv("ENVIRONMENT")
-	)
+/// init() is a Golang function to setup the required resources
+func init() {
 	host := flag.String("host", defaultHost, "define host of the server")
 	port := flag.Int("port", defaultPort, "define port of the server")
 	database := flag.String("database", dbDriver, "initialize the api using the given db engine")
@@ -74,7 +60,16 @@ func ClientHandler() {
 
 }
 
+/// initializeRepo returns a repository based on database type name
+func initializeRepo(database *string) assetRepository.AssetRepository {
+	switch *database {
+	case "mongo":
+		return assetRepositoryImpl.New(storageconn.Connect(mongoAddr))
+	default:
+		return nil // we can have several implementation like in memory, postgress etc
+	}
+}
+
 func main() {
-	fmt.Println("V1.0.0")
-	ClientHandler()
+	fmt.Println("V1.0.0 stated")
 }
