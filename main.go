@@ -32,6 +32,7 @@ var (
 
 /// init() is a Golang function to setup the required resources
 func init() {
+	fmt.Println("startr init ")
 	host := flag.String("host", defaultHost, "define host of the server")
 	port := flag.Int("port", defaultPort, "define port of the server")
 	database := flag.String("database", dbDriver, "initialize the api using the given db engine")
@@ -71,5 +72,5 @@ func initializeRepo(database *string) assetRepository.AssetRepository {
 }
 
 func main() {
-	fmt.Println("V1.0.0 stated")
+	fmt.Println("V1.0.0 started")
 }
